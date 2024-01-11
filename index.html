@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aumento Salarial - Policía Nacional</title>
+  <style>
+    body {
+      font-family: 'Century Gothic', sans-serif;
+      background-color: #00000;
+      color: white;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    #container {
+      text-align: center;
+      padding: 20px;
+      background-color: #153;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+
+    input, select, button {
+      margin-bottom: 10px;
+      padding: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #003366;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #001a33;
+    }
+
+    #results {
+      margin-top: 20px;
+    }
+
+    #results span {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    #totalSalary {
+      font-size: 18px;
+      font-weight: bold;
+      color: #00cc00; /* Color verde */
+    }
+
+    #version {
+      margin-top: 20px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>POLICÍA NACIONAL DE COLOMBIA</h1>
+    <img src="https://policia.edu.co/wp-content/uploads/2023/03/EscudoPONAL_tex.png" alt="Escudo Policía Nacional">
+    <div>
+      <label for="grade">Grado:</label>
+      <select id="grade">
+        <option value="PT">PT</option>
+        <option value="SI">SI</option>
+        <option value="IT">IT</option>
+        <option value="IJ">IJ</option>
+        <option value="SC">SC</option>
+        <option value="CM">CM</option>
+      </select>
+    </div>
+    <div>
+      <label for="name">Nombre y Apellido:</label>
+      <input type="text" id="name">
+    </div>
+    <h2>Consulta de Aumento Salarial</h2>
+    <div>
+      <label for="currentSalary">Sueldo Actual:</label>
+      <input type="number" id="currentSalary">
+    </div>
+    <div>
+      <label for="fixedDiscounts">Descuentos Fijos:</label>
+      <input type="number" id="fixedDiscounts">
+    </div>
+    <button onclick="calculateSalary()">Calcular</button>
+    <button onclick="clearForm()">Limpiar</button>
+    <div id="results">
+      <span id="partialIncrease">Aumento Parcial Sin Descuento: $0</span>
+      <span id="totalDiscountIncrease">Total Aumento Descuentos Fijos: $0</span>
+      <span id="finalSalaryIncrease">Aumento Sueldo Final: $0</span>
+      <span id="totalSalary">Salario Final a Devengar: $0</span>
+    </div>
+    <div id="version">Aplicación desarrollada por SI. DIEGO FERNANDO VALDES</div>
+    <div id="version">VERSIÓN 1.0 DE PRUEBA</div>
+  </div>
+
+  <script>
+    function calculateSalary() {
+      const percentage = 10.88;
+      const currentSalary = parseFloat(document.getElementById('currentSalary').value);
+      const fixedDiscounts = parseFloat(document.getElementById('fixedDiscounts').value);
+
+      const partialIncrease = currentSalary * (percentage / 100);
+      const discountIncrease = fixedDiscounts * (percentage / 100);
+      const totalDiscountIncrease = fixedDiscounts + discountIncrease;
+      const finalSalaryIncrease = partialIncrease - discountIncrease;
+      const totalSalary = currentSalary + finalSalaryIncrease;
+
+      document.getElementById('partialIncrease').innerText = `Aumento Parcial Sin Descuento: $${partialIncrease.toFixed(2)}`;
+      document.getElementById('totalDiscountIncrease').innerText = `Total Aumento Descuentos Fijos: $${totalDiscountIncrease.toFixed(2)}`;
+      document.getElementById('finalSalaryIncrease').innerText = `Aumento Sueldo Final: $${finalSalaryIncrease.toFixed(2)}`;
+      document.getElementById('totalSalary').innerText = `Salario Final a Devengar: $${totalSalary.toFixed(2)}`;
+
+      // Resaltar el salario final
+      document.getElementById('totalSalary').style.color = '#00cc00';
+    }
+
+    function clearForm() {
+      document.getElementById('results').querySelectorAll('span').forEach(span => {
+        span.innerText = `${span.id.replace(/([a-z])([A-Z])/g, '$1 $2')}: $0`;
+        span.style.color = 'white';
+      });
+      document.getElementById('grade').value = 'PT';
+      document.getElementById('name').value = '';
+      document.getElementById('currentSalary').value = '';
+      document.getElementById('fixedDiscounts').value = '';
+    }
+  </script>
+</body>
+</html>
